@@ -96,4 +96,75 @@ public class ThymeleafController {
 
         return mv;
     }
+
+    @RequestMapping("/thymeleaf/study03")
+    public ModelAndView study03(){
+        ModelAndView mv = new ModelAndView("thymeleaf/study03");
+
+        mv.addObject("num1", 100);
+        mv.addObject("num2", 200);
+        mv.addObject("num3", 11);
+
+
+        mv.addObject("grade", "B");
+
+        String[] strArray = {"첫번째", "두번째", "세번째", "네번째", "다섯번째"};
+        List<String> strList = new ArrayList<String>();
+        strList.add("첫번째");
+        strList.add("두번째");
+        strList.add("세번째");
+        strList.add("네번째");
+        strList.add("다섯번째");
+
+        mv.addObject("itemArray", strArray);
+        mv.addObject("itemList", strList);
+
+        MemberDTO member1 = new MemberDTO();
+        member1.setMemberIdx(1);
+        member1.setMemberId("test1");
+        member1.setMemberName("테스터1");
+        member1.setMemberAge(20);
+        member1.setMemberEmail("tester@bitc.ac.kr");
+
+        MemberDTO member2 = new MemberDTO();
+        member2.setMemberIdx(2);
+        member2.setMemberId("test2");
+        member2.setMemberName("테스터2");
+        member2.setMemberAge(30);
+        member2.setMemberEmail("tester@bitc.ac.kr");
+
+        MemberDTO member3 = new MemberDTO();
+        member3.setMemberIdx(3);
+        member3.setMemberId("test3");
+        member3.setMemberName("테스터3");
+        member3.setMemberAge(40);
+        member3.setMemberEmail("tester@bitc.ac.kr");
+
+        List<MemberDTO> memberList = new ArrayList<>();
+        memberList.add(member1);
+        memberList.add(member2);
+        memberList.add(member3);
+
+        mv.addObject("memberList", memberList);
+
+        return mv;
+    }
+
+    @RequestMapping("/thymeleaf/study04")
+    public ModelAndView study04(){
+        ModelAndView mv = new ModelAndView("thymeleaf/study04");
+        mv.addObject("checkedVal", true);
+        mv.addObject("multipleVal", true);
+        mv.addObject("selectedVal", true);
+        mv.addObject("disabledVal", false);
+        mv.addObject("readonlyVal", false);
+        return mv;
+    }
+
+    @RequestMapping("/thymeleaf/study05")
+    public ModelAndView study05(){
+        ModelAndView mv = new ModelAndView("thymeleaf/study05");
+
+        return mv;
+    }
 }
