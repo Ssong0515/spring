@@ -5,6 +5,7 @@ import bitc.fullstack405.board1.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -68,10 +69,15 @@ public class BoardController {
 //    list에서 보내는 것은 각 필드명들이고 여기에서 받는 매개변수는 BoardDTO임.
 //    이렇게 해주면 알아서 자동으로 BoardDTO로 묶어줌
 //    단 list에서의 name과 BoardDTO의 필드명은 같아야 자동으로 묶어줌
+//    첨부파일의 정보를 입력받기 위해서 MultipartHttpServletRequest 클래스 타입의 객체를 매개변수로 받음
+//    MultipartHttpServletRequest : 클라이언트에서 전달한 파일 정보를 받아오는 클래스
     @RequestMapping("/board/insertBoard.do")
-    public String insertBoard(BoardDTO board) throws Exception {
-        boardService.insertBoard(board);
-
+    public String insertBoard(BoardDTO board, MultipartHttpServletRequest multipart) throws Exception {
+//    서비스 객체에서 제공하는 insertBoard() 메소드 호출
+//    boardService.insertBoard(board);
+//    서비스 객체에서 제공하는 insertBoard() 메소드와 파일 정보를 함께 저장
+        boardService.insertBoard(board, multipart);
+//    JSP의 response.sendRedirect() 와 같은 역할
         return "redirect:/board/boardList.do";
     }
 

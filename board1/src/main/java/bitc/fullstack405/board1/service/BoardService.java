@@ -1,6 +1,7 @@
 package bitc.fullstack405.board1.service;
 
 import bitc.fullstack405.board1.dto.BoardDTO;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.util.List;
 
@@ -10,7 +11,8 @@ public interface BoardService {
 
     public List<BoardDTO> selectBoardList() throws Exception;
 
-    public void insertBoard(BoardDTO board) throws Exception;
+//    public void insertBoard(BoardDTO board) throws Exception;
+    public void insertBoard(BoardDTO board, MultipartHttpServletRequest multipart) throws Exception;
 
     BoardDTO selectBoardDetail(int boardIdx) throws Exception;
 
