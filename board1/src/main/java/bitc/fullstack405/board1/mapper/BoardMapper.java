@@ -26,7 +26,7 @@ public interface BoardMapper {
     public void updateBoard(BoardDTO board) throws Exception;
 
 //    글 삭제
-    public void delteBoard(int boardIdx) throws Exception;
+    public void deleteBoard(int boardIdx) throws Exception;
 
 //    조회수 증가
     public void updateHitCount(int boardIdx) throws Exception;

@@ -8,5 +8,15 @@ import java.util.List;
 // 해당 인터페이스 파일을 구현하는 클래스가 반드시 필요함
 public interface BoardService {
 
-    List<BoardDTO> selectBoardList() throws Exception;
+    public List<BoardDTO> selectBoardList() throws Exception;
+
+    public void insertBoard(BoardDTO board) throws Exception;
+
+    BoardDTO selectBoardDetail(int boardIdx) throws Exception;
+
+    void updateBoard(BoardDTO board) throws  Exception;
+
+    void deleteBoard(int idx) throws Exception;
+
+    void updateHitCount(int boardIdx) throws Exception;
 }
