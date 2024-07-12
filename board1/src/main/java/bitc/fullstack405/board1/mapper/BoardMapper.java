@@ -3,6 +3,7 @@ package bitc.fullstack405.board1.mapper;
 import bitc.fullstack405.board1.dto.BoardDTO;
 import bitc.fullstack405.board1.dto.BoardFileDTO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -33,5 +34,11 @@ public interface BoardMapper {
     public void updateHitCount(int boardIdx) throws Exception;
 
 //    첨부 파일 정보 DB에 추가
-    void insertBoardFileList(List<BoardFileDTO> fileList) throws Exception;
+    public void insertBoardFileList(List<BoardFileDTO> fileList) throws Exception;
+
+//    @Param: mybatis의 xml에서 사용할 변수명을 지정하는 어노테이션
+//    @param을 사용하지 않을 경우: 매개변수의 이름을 그대로 사용
+    public List<BoardFileDTO> selectBoardFileList(@Param("idx") int boardIdx) throws Exception;
+
+    public BoardFileDTO selectBoardFileInfo(int fileIdx, int boardIdx) throws Exception;
 }

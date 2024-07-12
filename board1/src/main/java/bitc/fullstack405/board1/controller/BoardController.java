@@ -1,14 +1,22 @@
 package bitc.fullstack405.board1.controller;
 
 import bitc.fullstack405.board1.dto.BoardDTO;
+import bitc.fullstack405.board1.dto.BoardFileDTO;
 import bitc.fullstack405.board1.service.BoardService;
+//import bitc.fullstack405.board1.utils.FileUtils;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.File;
+import java.net.URLEncoder;
 import java.util.List;
+
+import org.apache.commons.io.FileUtils;
 
 // @Controller: 해당 클래스가 spring WEB MVC의 Controller 파일임을 스프링 프레임워크에 알려주는 어노테이션
 // JSP MVC2 방식의 Servlet 파일과 동일한 역할
@@ -89,9 +97,10 @@ public class BoardController {
     public ModelAndView boardDetail(@RequestParam int boardIdx) throws Exception {
         ModelAndView mv = new ModelAndView("board/boardDetail");
 
-        boardService.updateHitCount(boardIdx);
         BoardDTO board = boardService.selectBoardDetail(boardIdx);
         mv.addObject("board", board);
+
+
         return mv;
     }
 
@@ -111,6 +120,23 @@ public class BoardController {
         boardService.deleteBoard(idx);
         
         return "redirect:/board/boardList.do";
+    }
+
+    @RequestMapping("/board/downloadBoardFile.do")
+    public void downloadBoardFile(@RequestParam("fileIdx") int fileIdx, @RequestParam("boardIdx") int boardIdx, HttpServletResponse resp) throws Exception {
+        BoardFileDTO boardFile = boardService.selectBoardFileInfo(fileIdx, boardIdx);
+
+        if (ObjectUtils.isEmpty(boardFile) == false) {
+            String fileName = boardFile.getOriginalFileName();
+            byte[] files = FileUtils.readFileToByteArray(new File(boardFile.getStoredFileName()));
+
+            resp.setContentType("appliction/octet-stream");
+            resp.setContentLength(files.length);
+            resp.setHeader("Content-Disposition", "attachment; fileName=\"" + URLEncoder.encode(fileName, "UTF-8") + "\"");
+            resp.getOutputStream().write(files);
+            resp.getOutputStream().flush();
+            resp.getOutputStream().close();
+        }
     }
 
 }

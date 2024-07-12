@@ -1,6 +1,7 @@
 package bitc.fullstack405.board1.service;
 
 import bitc.fullstack405.board1.dto.BoardDTO;
+import bitc.fullstack405.board1.dto.BoardFileDTO;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.util.List;
@@ -21,4 +22,6 @@ public interface BoardService {
     void deleteBoard(int idx) throws Exception;
 
     void updateHitCount(int boardIdx) throws Exception;
+
+    BoardFileDTO selectBoardFileInfo(int fileIdx, int boardIdx) throws Exception;
 }

@@ -10,6 +10,7 @@ import java.io.File;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -47,6 +48,7 @@ public class FileUtils {
 //            mkdirs(): 지정한 경로에 있는 없는 모든 폴더를 생성
             file.mkdirs();
         }
+
 
 //        업로드 된 파일 정보에서 전체 파일 이름 목록을 가져옴
         Iterator<String> iterator = multipart.getFileNames();
