@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <script src="/js/bootstrap.bundle.js"></script>
+
+    <script>
+        $(document).ready(function (){
+            $("#btn-cancel").on("click", function (){
+                history.back();
+            })
+        })
+    </script>
+</head>
+<body>
+
+<header th:replace="layer/Header :: headerNavbar"></header>
+
+<main class="container mt-5">
+    <section>
+        <div class="row">
+            <div class="col-sm-4 mx-auto">
+                <div class="border rounded-3 p-3">
+                    <form action="/board2/login/loginProcess.do" method="post">
+                        <div class="mt-3">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="user-id" name="userId" placeholder="User ID">
+                                <label for="user-id" class="form-label">User Id</label>
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <div class="form-floating">
+                                <input type="password" class="form-control" id="user-pw" name="userPw" placeholder="User Passward">
+                                <label for="user-pw" class="form-label">User Password</label>
+                            </div>
+                        </div>
+                        <div class="mt-3 d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">로그인</button>
+                            <button type="reset" class="btn btn-secondary" id="btn-cancel">취소</button>
+                        </div>
+                        <div class="mt-1 d-flex justify-content-end">
+                            <a href="#" class="btn btn-link" th:href="@{/board2/login/signup.do}">회원가입</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer th:replace="layer/Footer :: footer"></footer>
+</body>
+
+</html>

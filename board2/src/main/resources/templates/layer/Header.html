@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <script src="/js/bootstrap.bundle.js"></script>
+
+</head>
+<body>
+
+<header th:fragment="headerNavbar">
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+        <div class="container-fluid">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a href="#" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">Link1</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">Link2</a></li>
+            </ul>
+            <div th:if="${session.userId} == null">
+                <a href="#" class="btn btn-outline-success" th:href="@{/board2/login/login.do}">로그인</a>
+            </div>
+            <div th:unless="${session.userId} == null">
+                <span class="navbar-text me-3" th:text="|${session.userName} 님 반갑습니다.|"></span>
+                <button type="button" class="btn btn-outline-warning" id="btn-logout">로그아웃</button>
+            </div>
+        </div>
+    </nav>
+
+    <script>
+        $("#btn-logout").on("click", function (){
+            const confirmed = confirm("로그아웃 하시겠습니까?");
+
+            if (confirmed) {
+                location.href = "/board2/login/logout.do";
+            }
+        })
+    </script>
+</header>
+
+</body>
+</html>

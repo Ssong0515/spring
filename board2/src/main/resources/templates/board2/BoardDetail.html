@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <script src="/js/bootstrap.bundle.js"></script>
+
+</head>
+
+<style>
+    .input-span-width {
+        width: 75px !important;
+    }
+</style>
+
+<script>
+    $(document).ready(function (){
+        $("#btn-list").on("click", function (){
+            history.back();
+        })
+    })
+</script>
+
+<!-- thymeleaf에서 세션 정보를 가져와서 자바스크립트가 검증하고 화면을 로딩할 것인지
+이전 페이지(혹은 로그인 페이지)로 이동할지 결정-->
+<!-- 자바스크립트는 세션 정보를 직접 얻어올 수 없음-->
+<!-- <script th:inline='javacript' 입력 시 thymeleaf의 데이터를 자바스크립트에서 사용할 수 있음 -->
+<script th:inline="javascript">
+<!--    thymeleaf 객체 사용 시 thymeleaf의 데이터를 자바스크립트가 사용 할 수 있음-->
+    // 현재 페이지 전체에서 사용 할 수 있도록 자바스크립트 변수를 선언하고 thymeleaf에서 가져온 세션 정보를 저장함
+    const userId = [[${session.userId}]];
+
+    if (userId == null || userId == "") {
+        alert("로그인 후 이용하세요");
+        history.back();
+    }
+</script>
+
+<body>
+
+<header th:replace="~{/layer/Header :: headerNavbar}"></header>
+
+<main class="container mt-5">
+    <section>
+        <div class="row">
+            <div class="col-sm d-grid gap-2">
+                <div class="col-sm">
+                    <div class="input-group">
+                        <span class="input-group-text input-span-width">글번호</span>
+                        <input type="text" class="form-control" id="board-idx" name="boardIdx" readonly
+                               th:value="${board.boardIdx}">
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="input-group">
+                        <span class="input-group-text input-span-width">글제목</span>
+                        <input type="text" class="form-control" id="title" name="title" placeholder="제목을 입력하세요"
+                               th:value="${board.title}">
+                    </div>
+                </div>
+                <div class="col-sm">
+                    <div class="input-group">
+                        <span class="input-group-text input-span-width">조회수</span>
+                        <input type="text" class="form-control" id="hit-cnt" name="hitCnt" readonly
+                               th:value="${board.hitCnt}">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-sm-3">
+                <div class="input-group">
+                    <span class="input-group-text input-span-width">작성자</span>
+                    <input type="text" class="form-control" id="create-user" name="createUser" readonly th:value="${board.createUser}">
+                </div>
+            </div>
+            <div class="col-sm-5">
+                <div class="input-group">
+                    <span class="input-group-text input-span-width">작성일</span>
+                    <input type="text" class="form-control" id="create-date" name="createDate" readonly th:value="${board.createDate}">
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="input-group">
+                    <span class="input-group-text input-span-width">수정자</span>
+                    <input type="text" class="form-control" id="update-user" name="updateUser" readonly th:value="${board.updateUser}">
+                </div>
+            </div>
+            <div class="col-sm-5">
+                <div class="input-group">
+                    <span class="input-group-text input-span-width">수정일</span>
+                    <input type="text" class="form-control" id="update-date" name="updateDate" readonly th:value="${board.updateDate}">
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-sm">
+                <div class="input-group">
+                    <span class="input-group-text input-span-width">내용</span>
+                    <textarea class="form-control" name="contents" id="contents" rows="10"
+                              th:text="${board.contents}"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-sm">
+                <button id="btn-list" type="button" class="btn btn-secondary">목록</button>
+            </div>
+            <div class="col-sm d-flex justify-content-end">
+                <button type="button" class="btn btn-danger me-2">삭제</button>
+                <button type="button" class="btn btn-warning">수정</button>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer th:replace="~{/layer/Footer :: footer}"></footer>
+
+</body>
+</html>
