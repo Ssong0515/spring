@@ -1,14 +1,22 @@
 package bitc.fullstack405.board1.controller;
 
 import bitc.fullstack405.board1.dto.BoardDTO;
+import bitc.fullstack405.board1.dto.BoardFileDTO;
 import bitc.fullstack405.board1.service.BoardService;
+//import bitc.fullstack405.board1.utils.FileUtils;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.util.ObjectUtils;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.File;
+import java.net.URLEncoder;
 import java.util.List;
+
+import org.apache.commons.io.FileUtils;
 
 // @Controller: 해당 클래스가 spring WEB MVC의 Controller 파일임을 스프링 프레임워크에 알려주는 어노테이션
 // JSP MVC2 방식의 Servlet 파일과 동일한 역할
@@ -57,4 +65,78 @@ public class BoardController {
 //        클라이언트에게 View 템플릿 파일과 데이터를 함께 전달
         return mv;
     }
+
+//    글쓰기 페이지, 사용자 입력을 위한 단순 뷰
+    @RequestMapping("/board/boardWrite.do")
+    public String boardWrite() throws Exception {
+        return "board/boardWrite";
+    }
+
+//    글쓰기 처리, 데이터베이스 등록을 위한 내부 처리
+
+//    list에서 보내는 것은 각 필드명들이고 여기에서 받는 매개변수는 BoardDTO임.
+//    이렇게 해주면 알아서 자동으로 BoardDTO로 묶어줌
+//    단 list에서의 name과 BoardDTO의 필드명은 같아야 자동으로 묶어줌
+//    첨부파일의 정보를 입력받기 위해서 MultipartHttpServletRequest 클래스 타입의 객체를 매개변수로 받음
+//    MultipartHttpServletRequest : 클라이언트에서 전달한 파일 정보를 받아오는 클래스
+    @RequestMapping("/board/insertBoard.do")
+    public String insertBoard(BoardDTO board, MultipartHttpServletRequest multipart) throws Exception {
+//    서비스 객체에서 제공하는 insertBoard() 메소드 호출
+//    boardService.insertBoard(board);
+//    서비스 객체에서 제공하는 insertBoard() 메소드와 파일 정보를 함께 저장
+        boardService.insertBoard(board, multipart);
+//    JSP의 response.sendRedirect() 와 같은 역할
+        return "redirect:/board/boardList.do";
+    }
+
+//    글 상세보기
+    @RequestMapping("/board/boardDetail.do")
+//    @RequestParam: 클라이언트에서 전달한 데이터의 변수명을 알려주는 어노테이션, 데이터 전달 함께 함
+//    jsp의 request.getParameter() 메서드와 같은 기능
+//    name과 변수명이 같아야 자동으로 값이 들어감
+    public ModelAndView boardDetail(@RequestParam int boardIdx) throws Exception {
+        ModelAndView mv = new ModelAndView("board/boardDetail");
+
+        BoardDTO board = boardService.selectBoardDetail(boardIdx);
+        mv.addObject("board", board);
+
+
+        return mv;
+    }
+
+//   글 수정
+    @RequestMapping("/board/updateBoard.do")
+    public String updateBoard(BoardDTO board) throws Exception {
+        boardService.updateBoard(board);
+
+        return "redirect:/board/boardList.do";
+    }
+
+//  글 삭제
+    @RequestMapping("/board/deleteBoard.do")
+//    @RequestParam("전 페이지의 form의 name속성명") 형태로 사용 시, 클라이언트에서 설정한 name 속성값을 지정 할 수 있음
+//    좀 더 안전하고 변수명 변경 가능
+    public String deleteBoard(@RequestParam("boardIdx") int idx) throws Exception {
+        boardService.deleteBoard(idx);
+        
+        return "redirect:/board/boardList.do";
+    }
+
+    @RequestMapping("/board/downloadBoardFile.do")
+    public void downloadBoardFile(@RequestParam("fileIdx") int fileIdx, @RequestParam("boardIdx") int boardIdx, HttpServletResponse resp) throws Exception {
+        BoardFileDTO boardFile = boardService.selectBoardFileInfo(fileIdx, boardIdx);
+
+        if (ObjectUtils.isEmpty(boardFile) == false) {
+            String fileName = boardFile.getOriginalFileName();
+            byte[] files = FileUtils.readFileToByteArray(new File(boardFile.getStoredFileName()));
+
+            resp.setContentType("appliction/octet-stream");
+            resp.setContentLength(files.length);
+            resp.setHeader("Content-Disposition", "attachment; fileName=\"" + URLEncoder.encode(fileName, "UTF-8") + "\"");
+            resp.getOutputStream().write(files);
+            resp.getOutputStream().flush();
+            resp.getOutputStream().close();
+        }
+    }
+
 }

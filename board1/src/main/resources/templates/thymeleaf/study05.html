@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <script src="/js/bootstrap.bundle.js"></script>
+
+</head>
+<body>
+<div class="container mt-5">
+    <h3>외부 파일 가져오기</h3>
+    <!--  fragment : thymeleaf를 사용하여 미리 생성해 놓은 파일 혹은 파일의 일부분을 현재 파일로 포함시켜 사용-->
+    <!--  th:fragment를 사용하여 thymeleaf 에서 특정 파일 내부로 포함될 영역을 지정해 놓음-->
+    <!--  fragment는 하나의 layout 파일에서 여러개를 사용할 수 있음-->
+    <!--  fragment는 매개변수를 전달 할 수 있음-->
+    <!--  매개변수 사용 시, fragment 이름 설정 시, '이름(변수명1, 변수명2, ...)' 형태로 사용-->
+
+    <!--  th:insert : fragment로 지정된 파일 및 영역을 현재 파일의 지정한 영역의 자식 태그로 포함-->
+    <!--  th:replace : fragment로 지정된 파일 및 영역을 현재 파일의 지정한 영역으로 대체-->
+    <!--  th:include: fragment로 지정된 파일 및 영역의 자식 태그를 현재 파일의 지정된 영역의 자식 태그로 포함-->
+
+    <!--  th:가져올방식="~{경로및파일명 :: fragment명}" 형태로 사용-->
+
+    <br>
+
+    <h4>fragment로 기존에 생성한 파일 내용 가져오기</h4>
+    <div style="height: 500px;" class="py-4 border bg-info-subtle">
+        <header th:replace="~{/layout/Header :: headerBasic}"></header>
+        <main class="container mt-4 border-top border-2">
+            <div class="py-4">
+                <h1 class="text-center">Main 영역</h1>
+            </div>
+        </main>
+        <footer th:replace="~{/layout/Footer :: footer}"></footer>
+    </div>
+
+    <br>
+
+    <h4>insert, replace, include 방식 차이</h4>
+    <div style="height: 500px;" class="py-4 border bg-success bg-opacity-10 text-center">
+        <h5>th:insert</h5>
+        <div th:insert="~{/layout/Header :: headerBasic}"></div>
+
+        <h5 class="mt-4">th:replace</h5>
+        <div th:replace="~{/layout/Header :: headerBasic}"></div>
+
+        <h5 class="mt-4">th:include</h5>
+        <div th:include="~{/layout/Header :: headerBasic}"></div>
+
+    </div>
+
+    <br>
+    <hr>
+    <br>
+
+    <h4>여러가지 영역을 필요에 따라 가져오기</h4>
+    <div style="height: 500px;" class="py-4 border bg-success bg-opacity-10 text-center">
+        <div th:replace="~{/layout/Header :: headerBasic}"></div>
+        <div th:replace="~{/layout/Header :: headerNavbar}"></div>
+        <div th:replace="~{/layout/Header :: headerParam('헤더영역', '소제목 입력')}"></div>
+
+    </div>
+</div>
+</body>
+</html>
