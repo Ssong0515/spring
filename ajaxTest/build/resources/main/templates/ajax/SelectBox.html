@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>select box</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <script src="/js/bootstrap.bundle.js"></script>
+
+    <script>
+        $(document).ready(function (){
+            $("#sel1").on("change", function (){
+                const selectValue = $("#sel1 option:selected").val();
+                const sendDatas = {areaName: selectValue};
+
+                $.ajax({
+                    url: "/ajax/selectBox",
+                    type: "post",
+                    data: sendDatas,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            const sel2 = $("#sel2");
+                            sel2.empty();
+
+                            let html = "<option value='' selected>선택하세요!</option>"
+
+                            for (let i = 0; i < data.length; i++) {
+                                html += "<option value='" + data[i].areaName + "'>" + data[i].areaName + "</option>"
+                            }
+                            sel2.append(html);
+                        }
+                    },
+                    error: function (){
+                        alert("통신 실패")
+                    }
+                })
+            })
+
+            $("#sel2").on("change", function (){
+                const selectValue1 = $("#sel1 option:selected").val();
+                const selectValue2 = $("#sel2 option:selected").val();
+
+                const sendDatas = {areaName: selectValue1, areaSubName: selectValue2};
+
+                $.ajax({
+                    url: "/ajax/selectBox2",
+                    type: "post",
+                    data: sendDatas,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            const sel3 = $("#sel3");
+                            sel3.empty();
+
+                            let html = "<option value='' selected>선택하세요!</option>"
+
+                            for (let i = 0; i < data.length; i++) {
+                                html += "<option value='" + data[i].areaSubName + "'>" + data[i].areaSubName + "</option>"
+                            }
+                            sel3.append(html);
+                        }
+                    },
+                    error: function (){
+                        alert("통신 실패")
+                    }
+                })
+            })
+        })
+    </script>
+
+</head>
+<body>
+<div class="container mt-5">
+    <h1>Ajax로 실시간 데이터 가져오기</h1>
+
+    <div class="row">
+        <div class="col-sm">
+            <select class="form-control" id="sel1">
+                <option value="" selected>선택하세요</option>
+                <option value="군산">군산</option>
+                <option value="서울">서울</option>
+                <option value="부산">부산</option>
+                <option value="대전">대전</option>
+            </select>
+        </div>
+        <div class="col-sm">
+            <select class="form-control" id="sel2">
+                <option value="" selected>선택하세요</option>
+            </select>
+        </div>
+        <div class="col-sm">
+            <select class="form-control" id="sel3">
+                <option value="" selected>선택하세요</option>
+            </select>
+        </div>
+    </div>
+</div>
+</body>
+</html>

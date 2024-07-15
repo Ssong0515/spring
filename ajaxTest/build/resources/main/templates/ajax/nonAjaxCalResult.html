@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <script src="/js/bootstrap.bundle.js"></script>
+
+</head>
+<body>
+<div class="container mt-5">
+    <div class="row">
+        <h1 class="my-3 text-center">Ajax를 사용하지 않은 계산기 결과</h1>
+        <div class="col-sm-4 mx-auto">
+            <div class="mt-3">
+                <label for="num1" class="form-label">첫번째 숫자 : </label>
+                <input type="text" class="form-control" id="num1" name="num1" placeholder="첫번째 숫자를 입력하세요"
+                       th:value="${num1}">
+            </div>
+            <div class="mt-3">
+                <label for="num2" class="form-label">두번째 숫자 : </label>
+                <input type="text" class="form-control" id="num2" name="num2" placeholder="두번째 숫자를 입력하세요"
+                       th:value="${num2}">
+            </div>
+            <div class="mt-3">
+                <label for="result" class="form-label">연산 결과 : </label>
+                <input type="text" class="form-control" id="result" name="result" th:value="${result}">
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

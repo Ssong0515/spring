@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Ajax</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <script src="/js/bootstrap.bundle.js"></script>
+
+    <script>
+        $(document).ready(function (){
+            $("#btn-cal").on("click", function (){
+                const val1 = $("#num1").val();
+                const val2 = $("#num2").val();
+                const val3 = $("#selectedProcess option:selected").val();
+
+                $.ajax({
+                    url: "/ajax/quiz1",
+                    type: "post",
+                    data: {num1: val1, num2: val2, cal: val3},
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.result == "success") {
+                            const tag = $("#div-result");
+                            tag.empty();
+
+                            let html = "<label for='result' class='form-label'>계산 결과</label>"
+                            html += "<input type='text' class='form-control' id='result' name='result' " +
+                                "value='" + data.value + "' readonly>";
+
+                            tag.append(html);
+                        } else {
+                            alert("계산 중 오류 발생");
+                        }
+                    },
+                    error: function () {
+                        alert("통신 중 오류 발생")
+                    }
+                })
+            })
+        })
+    </script>
+</head>
+<body>
+<div class="container mt-5">
+    <h1 class="my-3 text-center">Ajax를 사용하는 계산기</h1>
+    <div class="row">
+        <div class="col-sm-4 mx-auto">
+            <div class="mt-3">
+                <label for="num1" class="form-label">첫번째 숫자 : </label>
+                <input type="text" class="form-control" id="num1" name="num1" placeholder="첫번째 숫자를 입력하세요">
+            </div>
+            <div class="mt-3">
+                <select class="form-control" id="selectedProcess">
+                    <option value="+">+</option>
+                    <option value="-">-</option>
+                    <option value="*">*</option>
+                    <option value="/">/</option>
+                </select>
+            </div>
+            <div class="mt-3">
+                <label for="num2" class="form-label">두번째 숫자 : </label>
+                <input type="text" class="form-control" id="num2" name="num2" placeholder="두번째 숫자를 입력하세요">
+            </div>
+            <div class="mt-3 d-grid gap-2">
+                <button type="button" class="btn btn-primary" id="btn-cal">계산</button>
+            </div>
+            <hr>
+            <div class="mt-3" id="div-result">
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
