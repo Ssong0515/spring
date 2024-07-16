@@ -6,5 +6,4 @@
 
 <mapper namespace="bitc.fullstack405.inittest.mapper.BoardMapper">
 
-
 </mapper>
