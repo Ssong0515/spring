@@ -11,6 +11,6 @@
         WHERE
             deleted_yn = 'N'
         ORDER BY
-            board_idx DESC
+            create_date
     </select>
 </mapper>

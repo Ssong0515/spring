@@ -40,8 +40,8 @@ public class BoardPagingController {
         isLastPage: 현재 페이지가 마지막 페이지인지 여부 확인, true/false
         hasPreviousPage: 이전 페이지가 존재하는지 여부 확인, true/false
         hasNextPage: 다음 페이지가 존재하는지 여부 확인, true/false
-        navigatePages: 네비게이션 블록의 크기
-        navigatePageNums: 전체 네비게이션 페이지 번호, 배열로 구성
+        navigatePages: 현재(보여지는) 네비게이션 블록의 크기
+        navigatePageNums: 현재(보여지는) 네비게이션 페이지 번호, 배열로 구성
         navigateFirstPage: 네비게이션 블록의 첫 페이지 번호
         navigateLastPage: 네비게이션 블록의 마지막 페이지 번호
         */
