@@ -8,13 +8,13 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 
-    @Value("${resource.gif.location")
+    @Value("${resource.gif.location}")
     private String gifLocation;
 
-    @Value("${resource.img.location")
+    @Value("${resource.img.location}")
     private String imgLocation;
 
-    @Value("${resource.upload.location")
+    @Value("${resource.upload.location}")
     private String uploadLocation;
 
     @Override
@@ -32,6 +32,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         String path2 = "file:///" + imgLocation;
         String path3 = "file:///" + uploadLocation;
 
-        registry.addResourceHandler("/imgs/**").addResourceLocations(path1, path2, path3);
+        registry.addResourceHandler("/img2/**").addResourceLocations(path1, path2, path3);
+//        registry.addResourceHandler("/img2/**").addResourceLocations("file:///C:/fullstack405/moving/");
     }
 }
